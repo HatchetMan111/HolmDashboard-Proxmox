@@ -1,0 +1,23 @@
+[Unit]
+Description=Holm – self-hosted dashboard for team, family, org
+Documentation=https://github.com/man15h/holm
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=holm
+Group=holm
+WorkingDirectory=/opt/holm
+EnvironmentFile=/etc/holm/holm.env
+Environment=NODE_ENV=production
+Environment=HOST=0.0.0.0
+Environment=PORT=3000
+Environment=CONFIG_PATH=/etc/holm/config.yml
+Environment=DATABASE_PATH=/var/lib/holm/holm.db
+ExecStart=/usr/bin/node /opt/holm/build
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

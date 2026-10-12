@@ -1,0 +1,95 @@
+# Holm Start-Konfiguration fuer den Proxmox-LXC (auth aus = sofort nutzbar).
+# Fuer echten Betrieb mit Login: config.example.yml aus dem Upstream als Vorlage
+# nehmen, auth.enabled: true + OIDC (Authelia/Authentik/Keycloak/Zitadel) setzen,
+# redirect_base auf die eigene URL zeigen lassen und OIDC_CLIENT_ID /
+# OIDC_CLIENT_SECRET in /etc/holm/holm.env exportieren.
+# Doku: https://github.com/man15h/holm/blob/main/docs/configuration.md
+
+branding:
+  name: "Holm"
+  description: "A home page for everyone in the house"
+
+auth:
+  enabled: false
+
+database:
+  enabled: true
+
+customization:
+  enabled: true
+
+apps:
+  - id: immich
+    name: "Photos"
+    url: "https://photos.example.com"
+    icon: "di:immich"
+    self_hosted: true
+    setup_guide:
+      subtitle: "Immich — back up your photos & videos"
+      steps:
+        - label: "Download the app"
+          desc: "Get Immich from the App Store or Play Store."
+        - label: "Connect"
+          desc: "Enter the server URL and sign in."
+        - label: "Turn on backup"
+          desc: "Settings -> Backup -> enable auto-upload."
+  - id: nextcloud
+    name: "Cloud"
+    url: "https://cloud.example.com"
+    icon: "di:nextcloud"
+    self_hosted: true
+  - id: jellyfin
+    name: "Jellyfin"
+    url: "https://jellyfin.example.com"
+    icon: "di:jellyfin"
+    self_hosted: true
+  - id: vault
+    name: "Vault"
+    url: "https://vault.example.com"
+    icon: "di:bitwarden"
+    self_hosted: true
+  - id: paperless
+    name: "Paperless"
+    url: "https://paperless.example.com"
+    icon: "di:paperless-ngx"
+    self_hosted: true
+  - id: youtube
+    name: "YouTube"
+    url: "https://youtube.com"
+    icon: "di:youtube"
+  - id: github
+    name: "GitHub"
+    url: "https://github.com"
+    icon: "di:github"
+  - id: wikipedia
+    name: "Wikipedia"
+    url: "https://wikipedia.org"
+    icon: "di:wikipedia"
+
+search:
+  enabled: true
+  url: "https://duckduckgo.com/"
+  param: "q"
+  name: "DuckDuckGo"
+  icon: "di:duckduckgo"
+
+wallpapers:
+  enabled: true
+  source: "gitlab"
+  count: 326
+
+weather:
+  enabled: true
+
+onboarding:
+  enabled: true
+  welcome_text: "One home page for the whole house. Pick the apps you use; everyone else gets their own."
+  slides:
+    - type: welcome
+    - type: services
+
+privacy:
+  enabled: false
+
+tips:
+  enabled: true
