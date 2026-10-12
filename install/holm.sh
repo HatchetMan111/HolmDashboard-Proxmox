@@ -228,6 +228,7 @@ node --version
 npm --version
 id holm >/dev/null 2>&1 || useradd -m -s /bin/bash holm
 mkdir -p /opt/holm /etc/holm /var/lib/holm
+git config --global --get-all safe.directory 2>/dev/null | grep -qx /opt/holm || git config --global --add safe.directory /opt/holm
 if [ ! -d /opt/holm/.git ]; then
   git clone https://github.com/man15h/holm.git /opt/holm
 else
