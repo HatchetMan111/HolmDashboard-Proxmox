@@ -235,12 +235,17 @@ else
   git -C /opt/holm reset --hard origin/main
 fi
 chown -R holm:holm /opt/holm /var/lib/holm
-if [ ! -f /etc/holm/holm.env ]; then
-  HOLM_SECRET_KEY=$(openssl rand -hex 32)
-  printf %s "$HOLM_SECRET_KEY" | grep -qE ^[0-9a-f]{64}$ || exit 1
-  printf HOLM_SECRET_KEY=%s\n "$HOLM_SECRET_KEY" > /etc/holm/holm.env
+if ! grep -qE ^HOLM_SECRET_KEY=[0-9a-f]{64}$ /etc/holm/holm.env 2>/dev/null; then
+  umask 077
+  openssl rand -hex 32 > /tmp/holm-secret-key
+  grep -qE ^[0-9a-f]{64}$ /tmp/holm-secret-key || exit 1
+  KEY=$(cat /tmp/holm-secret-key)
+  echo HOLM_SECRET_KEY=$KEY > /etc/holm/holm.env
+  rm -f /tmp/holm-secret-key
+  umask 022
   chmod 600 /etc/holm/holm.env
   chown root:holm /etc/holm/holm.env
+  grep -qE ^HOLM_SECRET_KEY=[0-9a-f]{64}$ /etc/holm/holm.env || exit 1
 fi
 su holm -c "cd /opt/holm && npm ci"
 su holm -c "cd /opt/holm && npm test"
